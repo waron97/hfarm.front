@@ -187,7 +187,7 @@ Per quanto riguarda invece la crescita di utenza e carico sul server, ci sono di
 
 ### Protezione e recupero dei dati
 
-Sicuramente tutti i servizi che offorno Database-As-Service hanno anche un'opzione per creare un backup periodico dei dati. Se si esegue da macchina virtuale, ci sarebbe bisogno di uno script o un servizio che esegue la stessa operazione. Nel caso dei relazionali, come anche di Firestore e sicuramente di Mongo, inoltre, ci sono i cosiddetti Trigger Functions, che possono essere impostati in maniera tale da creare una copia del valore precedente di un campo quando questo viene cambiato o cancellato. In questo modo, se i dati vengono corrotti, si può facilmente tornare a una versione precedente senza resettare l'intero database.
+Sicuramente tutti i servizi che offorno Database-As-Service hanno anche un'opzione per creare un backup periodico dei dati. Se si esegue da macchina virtuale, ci sarebbe bisogno di uno script o un servizio che esegue la stessa operazione. Nel caso dei relazionali, come anche di Firestore e sicuramente di Mongo, inoltre, ci sono i cosiddetti Trigger Functions, che possono essere impostati in maniera tale da creare una traccia del valore precedente e del valore aggiornato di un campo quando questo viene cambiato o cancellato. In questo modo, se i dati vengono corrotti, si può facilmente tornare a una versione precedente senza resettare l'intero database.
 
 ### Gestione pagamenti
 
