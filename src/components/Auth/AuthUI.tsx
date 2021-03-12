@@ -101,6 +101,7 @@ function AuthUI(props: Props) {
           <label htmlFor="username">
             Username:{' '}
             <input
+              minLength={1}
               required
               type="text"
               id="username"
@@ -111,6 +112,7 @@ function AuthUI(props: Props) {
           <label htmlFor="password">
             Password:{' '}
             <input
+              minLength={1}
               required
               type="password"
               id="password"
