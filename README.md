@@ -79,12 +79,7 @@ Per ricreare localmente il progetto:
 git clone https://github.com/waron97/hfarm.back
 cd hfarm.back
 python3 -m venv django_env # windows: python -m venv env
-
-
 source django_env/bin/activate # windows: django_env\Scripts\activate
-
-
-
 pip install -r requirements.txt
 python manage.py runserver
 ```
@@ -161,3 +156,33 @@ In aggiunta a quanto già specificato nell'_overview_, aggiungo solo che:
 - L'intero progetto è mobile-friendly, anche se non completamente ottimizzato per i dispositivi mobili
 
 ## Limitazioni e Lacune
+
+Data la natura di prototipo del prodotto e i tempi di esecuzione ristretti, ho fatto la scelta operativa di concentrarmi sulle funzionalità anzichè l'estetica. Di conseguenza, è evidente che la cura grafica non è particolarmente accentuata, anche se ho cercato di fare il più possibile di renderlo quantomento utilizzabile su diverse risoluzioni e viewport.
+
+Dal punto di vista delle funzionalità, non è implementato nessun grado di protezione delle credenziali dell'utente in termini di cifratura. Questo è certamente inammissibile in un vero ambiente di produzione.
+
+In terzo luogo, non mi è stato possibile implementare la gestione degli errori, sia server che client, nella misura in cui mi sarebbe piaciuto. Si tratta qui di un processo piuttosto laborioso in cui si esamina ogni tipologia di errori lanciat, in modo da gestirli in maniera coerente con il sistema, dando il feedback corretto all'utente o allo sviluppatore su cosa è andato storto. Nonostante questo non sia presente in modo completo in questo prototipo, ho comunque impostato funzioni e metodi in maniera tale che la gestione di questi errori venga svolta in alcuni punti ben precisi dell'applicazione, senza disperderli e quindi rendere il prodotto poco scalabile.
+
+## Estensioni future
+
+### Supporto multilingua
+
+Al momento, tutte le stringhe dell'applicazione sono 'hard-coded'. Per supportare diverse lingue, le stringhe testuali utilizzate dovrebbero quantomeno essere prese da un file esterno, ma idealmente da un CMS per migliore scalabilità e gestibilità. A quel punto basta inserire un wrapper che gestisce la fonte delle stringhe attorno all'applicazione.
+
+### Scalabilità
+
+Dal punto di vista della gestione del codice crescente di un progetto in continuo ampliamento, ho spesso preferito usare Django per la sua naturale capacità di organizzare codebase molto complessi in sottounità che possono anche esistere indipendentemente. Questo rende l'estensione del codice modellabile all'interno di un ambiente composto da molti sottoelementi ben circoscritti. Questo progetto usa in effetti già questa proprietà di Django: c'è una sotto-applicazione dedicata all'Api e una sotto-applicazione dedicata ai contenuti grafici fruiti dall'utente. Se si dovesse ampliare, in futuro, questo progetto, le basi infrastrutturali per farlo sono già in buona parte presenti.
+
+Per quanto riguarda invece la crescita di utenza e carico sul server, ci sono diversi modi per gestirle una tale espansione. Una opzione è ovviamente di assegnare al progetto macchine con più memoria e potenza computazionale. Anche dockerizzare un'app Django è una soluzione comune, e a quel punto una soluzione come Kubernetes per la distribuzione è un'ottima strada da percorrere.
+
+### Gestione pagamenti
+
+Non avendo molta esperienza in questo campo, posso solo dire che se mi trovassi a dover implementare una funzionalità per gestire pagamenti, mi affiderei a una soluzione esterna, come il plugin Stripe per Firebase.
+
+### Modalità di deployment
+
+In questo momento il progetto è in live su heroku, ma in linea di massima qualsiasi VM su servizi come AWS o Google Cloud potrebbero ospitare il server. Tuttavia, per un deployment più ideale del progetto, i file statici (HTML, JS, CSS) dovrebbero o essere serviti da un server esterno da quello dell'API, o, ancora meglio, da CDN. Soluzioni serverless come Netlify o Firebase possono essere un'alternativa se si è disposti a rinunciare al Backend Framework e riscrivere il progetto secondo il modello _serverless functions_. Credo però che progetti con server complessi come questo non scalino bene in modalità serverless.
+
+### App Android / iOS
+
+Dato che il progetto è scritto in React, il salto a React-Native è piccolo e tutto sommato indolore, specialmente in questo stadio in cui l'estetica è seconda alla funzionalità (CSS non funziona in react-native, mentre tutta la logica JS sì).
