@@ -1,0 +1,25 @@
+.user-not-owner {
+  form {
+    select,
+    input:not(.btn) {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.actions-tooltip {
+  // border: 1px solid black;
+  span {
+    text-align: left;
+    font-size: 16px;
+    padding: 0.2rem;
+    display: inline;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  svg {
+    cursor: pointer;
+  }
+}
