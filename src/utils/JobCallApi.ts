@@ -9,6 +9,9 @@ import {
 } from './Types';
 import { handleServerRejections } from './Authenticators';
 
+/**
+ * Ritorna la lista completa di Call presenti nel database
+ */
 export const getCalls = (): Promise<Call[]> => {
   return new Promise(async (resolve, reject) => {
     if (isDev) {
@@ -40,6 +43,11 @@ export const getCalls = (): Promise<Call[]> => {
   });
 };
 
+/**
+ * Crea una nuova call sul server
+ * @param user utente autenticato per il token
+ * @param call dati della Call da creare
+ */
 export const createCall = async (
   user: User,
   call: CallEssential
@@ -58,6 +66,14 @@ export const createCall = async (
   }
 };
 
+/**
+ * Scarica i dettagli relativi a una call specifica.
+ * I dati variano a seconda se l'utente è il proprietario
+ * della call.
+ * @param user utente autenticato per il token
+ * @param id id della call da scaricare
+ * @returns
+ */
 export const getCall = async (user: User, id: string): Promise<Call | null> => {
   if (isDev) {
     return MockData.callBuilder(2)[0];
@@ -87,6 +103,13 @@ export const getCall = async (user: User, id: string): Promise<Call | null> => {
   }
 };
 
+/**
+ * Aggiorna lo stato di una candidatura sul server
+ * @param newStatus Nuovo stato da assegnare alla candidatura
+ * @param applicationId id della candidatura
+ * @param user utente autenticato per il token
+ * @return {boolean} true se eseguito con successo
+ */
 export const updateApplicationStatus = async (
   newStatus: ApplicationStatus,
   applicationId: number,
@@ -107,11 +130,18 @@ export const updateApplicationStatus = async (
   }
 };
 
+/**
+ *
+ * @param user utente autenticato
+ * @param callId id della call cui candidarsi
+ * @param seniority grado di seniority dichiarato
+ * @returns true se eseguito con successo
+ */
 export const applyToCall = async (
   user: User,
   callId: number,
   seniority: string
-) => {
+): Promise<boolean> => {
   if (isDev) {
     return true;
   }
@@ -129,6 +159,11 @@ export const applyToCall = async (
   }
 };
 
+/**
+ *
+ * @param user utente autenticato
+ * @returns la lista delle Call create dall'utente
+ */
 export const getUserPosts = async (user: User): Promise<Call[]> => {
   if (isDev) {
     return MockData.callBuilder(10);
@@ -152,6 +187,12 @@ export const getUserPosts = async (user: User): Promise<Call[]> => {
     return data;
   }
 };
+
+/**
+ *
+ * @param user utente autenticato
+ * @returns La lista di candidature effettuate dall'utente
+ */
 export const getUserApplications = async (
   user: User
 ): Promise<CallApplication[]> => {

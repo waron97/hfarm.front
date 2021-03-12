@@ -34,6 +34,10 @@ function AuthUI(props: Props) {
     e.preventDefault();
     props.setUsernameAndPassword({ username, password });
   };
+
+  /**
+   * Inizia procedura di registrazione. Tutta la logica è in <Auth>
+   */
   const handleSignupSubmit = (e: any) => {
     e.preventDefault();
     props.registerWithUsernameAndPassword({
@@ -45,6 +49,7 @@ function AuthUI(props: Props) {
   };
   let body;
   if (section === 'signin') {
+    // modifica l'ui da mostrare a seconda se la sezione è 'signin' o 'signup'
     body = (
       <div className="main">
         <h1 className="text-center">Accedi</h1>

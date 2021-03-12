@@ -41,6 +41,11 @@ export const authenticateWithToken = (): Promise<User> => {
   });
 };
 
+/**
+ * Manda una richiesta al server per autenticare l'utente
+ * @param credentials username e password
+ * @returns il token di sessione
+ */
 export const authenticateWithUsernameAndPassword = (
   credentials: UsernameAndPassword
 ): Promise<string> => {
@@ -92,6 +97,12 @@ export const registerWithUsernameAndPassword = (
   });
 };
 
+/**
+ *
+ * @param err Il messaggio di errore ritornato dal server
+ * @param reject Il metodo della Promise ritornata dal parente
+ *                per rifiutare con l'errore giusto
+ */
 export const handleServerRejections = (err: string, reject: Function) => {
   console.log(err);
   switch (err) {

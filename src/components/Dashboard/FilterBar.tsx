@@ -7,7 +7,10 @@ interface Props {
   setQuery: (query: string) => void;
   setClientIdQuery: (query: string) => void;
 }
-
+/**
+ * Converte una stringa libera in una QueryType
+ * per motivi di Type Safety
+ */
 function toQueryType(str: string): QueryType {
   if (str === 'internal') return 'internal';
   if (str === 'external') return 'external';
@@ -15,6 +18,10 @@ function toQueryType(str: string): QueryType {
   else return 'title';
 }
 
+/**
+ *
+ * Barra di ricerca per filtrare le call in Dasboard
+ */
 function FilterBar(props: Props) {
   const [queryType, setQueryType] = useState<QueryType>('title');
   const [query, setQuery] = useState('');

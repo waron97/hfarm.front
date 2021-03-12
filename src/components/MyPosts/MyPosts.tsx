@@ -5,6 +5,9 @@ import { UserContext } from '../Auth/Auth';
 import Spinner from '../Spinner.tsx/Spinner';
 import './myposts.scss';
 
+/**
+ * Mostra tutti le Call create dall'utente autenticato
+ */
 function MyPosts() {
   const [posts, setPosts] = useState<Call[]>([]);
   const [error, setError] = useState('');

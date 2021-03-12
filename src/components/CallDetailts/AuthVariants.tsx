@@ -12,6 +12,10 @@ interface Props {
   refresh: () => void;
 }
 
+/**
+ *
+ * UI da ritornare se l'utente è il poster della Call.
+ */
 export function UserIsOwner(props: Props) {
   const applicants = props.call.applications;
   const [error, setError] = useState('');
@@ -110,6 +114,10 @@ export function UserIsOwner(props: Props) {
   } else return <h1>No applications</h1>;
 }
 
+/**
+ *
+ * UI da ritornare se l'utente non è il poster della Call.
+ */
 export function UserIsNotOwner(props: Props) {
   const hasApplied = props.user.applications?.includes(props.call.id);
   const [error, setError] = useState('');

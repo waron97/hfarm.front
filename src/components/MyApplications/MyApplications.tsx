@@ -5,6 +5,9 @@ import { UserContext } from '../Auth/Auth';
 import Spinner from '../Spinner.tsx/Spinner';
 import './myapplications.scss';
 
+/**
+ * Mostra tutte le candidature dell'utente autenticato.
+ */
 function MyApplications() {
   const [applications, setApplications] = useState<CallApplication[]>([]);
   const [error, setError] = useState('');

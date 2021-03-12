@@ -83,6 +83,11 @@ class Auth extends React.Component<AuthProps, AuthState> {
     this.setState({ usernameAndPassword: credentials });
   };
 
+  /**
+   * Punto finale della procedura di autenticazione.
+   * Prende l'utente autenticato dal server e lo mette in Context.
+   * @param user L'utente autenticato mandato dal server.
+   */
   handleAuthSuccess = (user: User) => {
     this.setState({ loading: false });
     console.log('auth success');
@@ -90,11 +95,23 @@ class Auth extends React.Component<AuthProps, AuthState> {
     this.setState({ isAuthenticated: true, user: user });
   };
 
+  /**
+   * Punto intermedio di autenticazione.
+   * Il server ha accettato username e password, e ha mandato il token.
+   * Questa funzioe mette il token in localStorage e reinizia
+   * la procedura di autenticazione.
+   * @param token Token di sessione ricevuto dal server.
+   */
   handleTokenReceived = (token: string) => {
     localStorage.setItem('authToken', token);
     this.authenticate();
   };
 
+  /**
+   *
+   * Gestione degli errori di autenticazione.
+   *
+   */
   handleAuthFailure = (e: any) => {
     this.setState({ loading: false });
     if (e instanceof NoTokenError && this.state.usernameAndPassword) {
@@ -135,12 +152,22 @@ class Auth extends React.Component<AuthProps, AuthState> {
     }
   };
 
+  /**
+   * Punto di arrivo della procedura di registrazione.
+   * Accetta l'utente autenticato ritornato dal server e
+   * lo mette in Context.
+   * @param user L'oggetto-utente ritornato dal server
+   */
   handleSignupSuccess = (user: User) => {
     this.setState({ loading: false });
     user.token && localStorage.setItem('authToken', user.token);
     this.setState({ user: user, isAuthenticated: true });
   };
 
+  /**
+   *
+   * Gestione degli errori di registrazione.
+   */
   handleSignupFailure = (e: any) => {
     this.setState({ loading: false });
     if (e instanceof AuthSignupRejection && e.message === 'username_taken') {
@@ -192,16 +219,25 @@ class Auth extends React.Component<AuthProps, AuthState> {
       .catch(this.handleSignupFailure);
   };
 
+  /**
+   * Rimuove o aggiunge una Call dai preferiti dell'utente sul server
+   * e sul Client.
+   * @param operation L'operazione da eseguire
+   * @param callId L'id del preferito da aggiungere/togliere
+   */
   alterUserFavorites = (
     operation: FavoritesOperations,
     callId: number
   ): void => {
     const user = this.state.user;
     if (user) {
+      // Aggiornamento locale
       operation === 'add'
         ? user?.favorites?.push(callId)
         : (user.favorites = user?.favorites?.filter((id) => id != callId));
       this.setState({ user: user });
+
+      // Aggiornamento remoto
       const token = this.state.user?.token ? this.state.user.token : '';
       const fetchParams: RequestInit = {
         method: 'POST',
@@ -218,6 +254,12 @@ class Auth extends React.Component<AuthProps, AuthState> {
     }
   };
 
+  /**
+   * Aggiunge all'oggetto-utente locale la candidatura ad un post.
+   * L'aggiornamento sul server è eseguito direttamente
+   * in CallDetails/UserIsNotOwner.
+   * @param callId Id della Call target di candidatura
+   */
   addUserApplicationLocally = (callId: number) => {
     const user = this.state.user;
     user?.applications?.push(callId);

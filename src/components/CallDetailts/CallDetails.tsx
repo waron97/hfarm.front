@@ -10,6 +10,12 @@ export interface CallDetailProps {
   match: { params: { id: string } };
 }
 
+/**
+ *
+ * Schermata che mostra i dettagli di una Call.
+ * Ritorna una variante a seconda che l'utente
+ * sia il poster della Call o no.
+ */
 function CallDetails(props: CallDetailProps) {
   const [error, setError] = useState('');
   const [call, setCall] = useState<Call | null>(null);

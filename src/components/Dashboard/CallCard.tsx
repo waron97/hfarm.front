@@ -4,6 +4,10 @@ import { BookmarkIcon } from '../../utils/icons';
 import { Call, FavoriteEditor, User } from '../../utils/Types';
 import { UserContext } from '../Auth/Auth';
 
+/**
+ *
+ * Elemento ui per rappresentare una call in stile Card
+ */
 function CallCard(props: Call) {
   const taskbarBackgroundColor = props.type === 'internal' ? 'blue' : 'orange';
   const ctx = useContext(UserContext);

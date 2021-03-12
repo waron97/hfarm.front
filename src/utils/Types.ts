@@ -37,8 +37,8 @@ export interface CallApplication {
 }
 
 /**
- * All attributes all presented for the authenticated user.
- * Only obligatory fields for other users.
+ * L'utente autenticato disporrà di tutti i campi. Altri oggetti-utente
+ * solo dei campi obbligatori
  */
 export interface User {
   username: string;

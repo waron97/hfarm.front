@@ -1,5 +1,9 @@
 import { ApplicationStatus } from './Types';
 
+/**
+ *
+ * ritorna il colore da attribuire allo stato di una candidatura
+ */
 export const getColorOnStatus = (status: ApplicationStatus) => {
   switch (status) {
     case 'confermato':

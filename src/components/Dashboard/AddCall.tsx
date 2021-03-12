@@ -7,6 +7,11 @@ interface Props {
   addCall: (call: CallEssential) => void;
 }
 
+/**
+ *
+ * Card funzionale per aggiungere una call.
+ * Sempre la prima in lista in Dashboard.
+ */
 function AddCall(props: Props) {
   const [clicked, setClicked] = useState(false);
   const [title, setTitle] = useState('');

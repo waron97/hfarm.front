@@ -9,6 +9,13 @@ import CallCard from './CallCard';
 import './dashboard.scss';
 import FilterBar from './FilterBar';
 
+/**
+ * Funzione per ordinare le call prima in base allo stato di preferiti
+ * poi in base alla data di pubblicazione.
+ * @param a Prima Call
+ * @param b Seconda Call
+ * @param favorites La lista di preferiti dell'utente
+ */
 function sortByIsFavorite(
   a: Call,
   b: Call,
@@ -36,6 +43,9 @@ function sortByIsFavorite(
   }
 }
 
+/**
+ * Dashbaord principale che mostra tutte le call aperte.
+ */
 function Dashboard() {
   const [calls, setCalls] = useState<Call[]>([]);
   const [error, setError] = useState<string | null>(null);
