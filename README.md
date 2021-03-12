@@ -8,6 +8,16 @@ Github Backend: [Backend](https://github.com/waron97/hfarm.back)
 
 Live Url: [Live](https://candidatura-winkler.herokuapp.com)
 
+## Indice
+
+- [Overview](#overview)
+- [Infrastruttura](#infrastruttura)
+- [Testing](#testing)
+- [Autenticazione](#autenticazione)
+- [Funzionalità](#funzionalità)
+- [Limitazioni e Lacune](#limitazioni-e-lacune)
+- [Estensioni future](#estensioni-future)
+
 ## Overview
 
 Il progetto presentato è un prototipo primitivo ma funzionante della consegna ricevuta.
