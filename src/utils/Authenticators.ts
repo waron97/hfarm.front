@@ -17,9 +17,10 @@ import { RegisterCredentials, User, UsernameAndPassword } from './Types';
 export const authenticateWithToken = (): Promise<User> => {
   return new Promise(async (resolve, reject) => {
     if (isDev) {
-      // console.log('resolving user');
-      resolve(mockData.currentUser);
-      // reject(new NoTokenError('no_token'));
+      const doResolve = true;
+      doResolve
+        ? resolve(mockData.currentUser)
+        : reject(new NoTokenError('no_token'));
       return;
     }
     const token = localStorage.getItem('authToken');

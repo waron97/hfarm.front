@@ -10,7 +10,7 @@ export const getColorOnStatus = (status: ApplicationStatus) => {
       return 'green';
     case 'review':
       return 'orange';
-    case 'ricevuto':
+    case 'ricevuto' || 'received':
       return 'blue';
     case 'rifiutato':
       return 'red';

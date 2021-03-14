@@ -2,7 +2,32 @@
   form {
     select,
     input:not(.btn) {
-      margin-left: 1rem;
+      // margin-left: 1rem;
+    }
+  }
+}
+
+.user-owner {
+  @media only screen and (max-width: 768px) {
+    padding: 0 !important;
+  }
+  td {
+    span {
+      @media only screen and (max-width: 768px) {
+        display: block;
+      }
+    }
+  }
+  h1 {
+    @media only screen and (max-width: 768px) {
+      // text-align: center;
+      // padding: 1rem;
+    }
+  }
+  small,
+  p {
+    @media only screen and (max-width: 768px) {
+      // padding: 1em !important;
     }
   }
 }

@@ -4,26 +4,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgb(238, 236, 236);
 
   .auth-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     min-width: 50%;
     width: auto;
     height: auto;
-    background-color: rgb(219, 219, 219);
+    background-color: rgba(0, 255, 221, 0.356);
+    border: 1px solid black;
+    border-radius: 10px;
     @media only screen and (max-width: 768px) {
       min-width: 95%;
     }
 
     .auth-nav {
-      background-color: fuchsia;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: space-around;
       padding: 0.5rem;
+      border-bottom: 0.5px solid black;
+      width: 95%;
 
       .auth-nav-item {
+        width: 50%;
         cursor: pointer;
+        &:first-child {
+          border-right: 1px solid black;
+        }
       }
 
       .active {
@@ -38,6 +50,9 @@
       align-items: center;
       justify-content: flex-start;
       flex-direction: column;
+      @media only screen and (max-width: 768px) {
+        align-items: center;
+      }
 
       h1 {
         font-size: 25px;
@@ -47,11 +62,26 @@
       label {
         text-align: center;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-        input {
+        width: 400px;
+        @media only screen and (max-width: 768px) {
+          flex-direction: column;
+        }
+        span {
+          text-align: left;
+          width: 100px;
+          margin-right: 1rem;
+          @media only screen and (max-width: 768px) {
+            margin-right: 0;
+            text-align: center;
+          }
+        }
+        input,
+        select {
           display: block;
+          max-width: 80%;
         }
       }
     }

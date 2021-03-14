@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import BootstrapNav from 'react-bootstrap/Navbar';
 import { Nav } from 'react-bootstrap';
 import './navbar.scss';
+import { UserContext } from '../Auth/Auth';
 
 function NavBar() {
+  const user = useContext(UserContext);
   return (
     <BootstrapNav expand="sm" bg="light">
       <BootstrapNav.Brand>Aron Winkler</BootstrapNav.Brand>
@@ -21,7 +23,7 @@ function NavBar() {
             <Link to="/applications">Candidature</Link>
           </BootstrapNav.Text>
           <BootstrapNav.Text>
-            <a href="#">GitHub</a>
+            <a href="https://github.com/waron97/hfarm.back.git">GitHub</a>
           </BootstrapNav.Text>
           <BootstrapNav.Text>
             <a
@@ -32,7 +34,7 @@ function NavBar() {
                 window.location.reload();
               }}
             >
-              Logout
+              Logout ({user?.user.username})
             </a>
           </BootstrapNav.Text>
         </Nav>

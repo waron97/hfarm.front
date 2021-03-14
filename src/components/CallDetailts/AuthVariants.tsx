@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import isDev from '../../utils/IsDev';
 import { applyToCall, updateApplicationStatus } from '../../utils/JobCallApi';
-import { getColorOnStatus } from '../../utils/prettify';
 import { ApplicationStatus, Call, User } from '../../utils/Types';
 import { UserContext } from '../Auth/Auth';
 import Spinner from '../Spinner.tsx/Spinner';
+import * as faker from 'faker';
 
 interface Props {
   user: User;
@@ -12,14 +12,54 @@ interface Props {
   refresh: () => void;
 }
 
+function CallInformation(props: Props) {
+  const clientId =
+    props.call.clientId && props.call.clientId !== 'NOID'
+      ? props.call.clientId
+      : '';
+  return (
+    <>
+      <div className="jumbotron">
+        <h1 className="display-5">{props.call.title}</h1>
+        <p className="">
+          {props.call.timePosted.toLocaleDateString()}
+          {' - ' + clientId}
+        </p>
+        <hr className="my-4" />
+        {/* <p className="lead">{props.call.description}</p> */}
+        {props.call.description.split('\n').map((par) => (
+          <p key={par} className="lead">
+            {par}
+          </p>
+        ))}
+      </div>
+    </>
+  );
+}
+
 /**
  *
  * UI da ritornare se l'utente è il poster della Call.
  */
 export function UserIsOwner(props: Props) {
-  const applicants = props.call.applications;
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [applicants, setApplicants] = useState(props.call.applications);
+  const [query, setQuery] = useState('');
+  const [queryType, setQueryType] = useState('Nome');
+  useEffect(() => {
+    if (queryType === 'Nome') {
+      const filteredApplicants = props.call.applications?.filter(
+        (application) => application.applicantName.includes(query)
+      );
+      setApplicants(filteredApplicants);
+    } else if (queryType == 'Seniority') {
+      const filteredApplicants = props.call.applications?.filter(
+        (application) => application.applicantSeniority === query
+      );
+      setApplicants(filteredApplicants);
+    }
+  }, [query, queryType]);
   const setApplicationStatus = (
     newStatus: ApplicationStatus,
     applicationId: number
@@ -37,76 +77,133 @@ export function UserIsOwner(props: Props) {
       }
     );
   };
+
   if (loading) {
     return <Spinner />;
   }
   if (applicants) {
     return (
       <div className="call-view user-owner text-left p-3">
-        <h1>{props.call.title}</h1>
-        <small>{props.call.timePosted.toLocaleDateString()}</small>
-        <p>{props.call.description}</p>
+        <CallInformation {...props} />
         {error && <div className="alert alert-danger">{error}</div>}
-        <table className="table table-striped">
+        <h2 className="p-2">Candidati</h2>
+        <p className="text-muted p-2">
+          C&apos;è una funzionalità nel Brief che qui non è implemenata, ovvero
+          l&apos;aggiunta diretta di un candidato. Per ovviare al problema, si
+          dovrebbe aggiornare l&apos;endpoint sul server per accettare anche uno
+          username per creare una candidatura. Tuttavia, la nuova categoria di
+          errori che emerge quando non è l&apos;utente autenticato (che quindi
+          dispone di un ID certamente esistente nel DB) a creare una candidatura
+          (per esempio viene fornito un username non esistente) richiederebbe
+          una implementazione attenta della nuova feature. Purtroppo non ho
+          pianificato con sufficiente accortezza all&apos;inzio, quindi tornare
+          a lavorare su questo richiederebbe troppo tempo.
+        </p>
+        {queryType === 'Nome' && (
+          <div className="form-group p-2">
+            <label htmlFor="">
+              <input
+                placeholder="Inserisci il nome"
+                type="text"
+                className="form-control"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+              />
+            </label>
+          </div>
+        )}
+        <div className="form-group p-2">
+          <label htmlFor="">
+            <select
+              className="form-control"
+              onChange={(e) => {
+                const value = e.target.value;
+                value === 'Senior' || value === 'Junior'
+                  ? setQueryType('Seniority')
+                  : setQueryType('Nome');
+                if (value !== 'Nome') setQuery(value);
+                else setQuery('');
+              }}
+            >
+              <option value="Nome">Filtra per Nome</option>
+              <option value="Senior">Solo senior</option>
+              <option value="Junior">Solo junior</option>
+            </select>
+          </label>
+        </div>
+        <table className="table table-striped table-responsive-sm">
           <thead className="thead-dark">
             <tr>
               <th>Nome</th>
               <th>Seniority</th>
               <th>Data</th>
+              <th>Residenza</th>
               <th>Status</th>
-              <th>CV</th>
               <th>Azioni</th>
             </tr>
           </thead>
           <tbody>
-            {applicants.map((application) => (
-              <tr key={application.id}>
-                <td>{application.applicantName}</td>
-                <td>{application.applicantSeniority}</td>
-                <td>{application.timeApplied.toLocaleDateString()}</td>
-                <td
+            {applicants
+              .filter(
+                (application) => application.applicationStatus !== 'rifiutato'
+              )
+              .map((application) => (
+                <tr
+                  key={application.id}
                   style={{
-                    color: getColorOnStatus(application.applicationStatus),
-                    fontWeight: 'bold',
+                    backgroundColor:
+                      application.applicantType === 'internal'
+                        ? 'rgba(0, 135, 255, 0.7)'
+                        : 'rgba(255, 197, 0, 1)',
                   }}
                 >
-                  {application.applicationStatus}
-                </td>
-                <td>
-                  <a href="#">Scarica CV</a>
-                </td>
-                <td className="actions-tooltip">
-                  <span
-                    onClick={() =>
-                      setApplicationStatus('ricevuto', application.id)
-                    }
+                  <td>{application.applicantName}</td>
+                  <td>
+                    {faker.name.jobTitle()} ({application.applicantSeniority})
+                  </td>
+                  <td>{application.timeApplied.toLocaleDateString()}</td>
+                  <td>{faker.address.city()}</td>
+                  <td
+                    style={{
+                      fontWeight: 'bold',
+                    }}
                   >
-                    Ricevuto
-                  </span>
-                  <span
-                    onClick={() =>
-                      setApplicationStatus('review', application.id)
-                    }
-                  >
-                    Review
-                  </span>
-                  <span
-                    onClick={() =>
-                      setApplicationStatus('confermato', application.id)
-                    }
-                  >
-                    Confermato
-                  </span>
-                  <span
-                    onClick={() =>
-                      setApplicationStatus('rifiutato', application.id)
-                    }
-                  >
-                    Rifiutato
-                  </span>
-                </td>
-              </tr>
-            ))}
+                    {application.applicationStatus}
+                  </td>
+                  <td className="actions-tooltip">
+                    <span
+                      onClick={() =>
+                        setApplicationStatus('ricevuto', application.id)
+                      }
+                    >
+                      Ricevuto
+                    </span>
+                    <span
+                      onClick={() =>
+                        setApplicationStatus('review', application.id)
+                      }
+                    >
+                      Review
+                    </span>
+                    <span
+                      onClick={() =>
+                        setApplicationStatus('confermato', application.id)
+                      }
+                    >
+                      Confermato
+                    </span>
+                    <span
+                      onClick={() =>
+                        setApplicationStatus('rifiutato', application.id)
+                      }
+                    >
+                      Rifiutato
+                    </span>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>
@@ -148,6 +245,7 @@ export function UserIsNotOwner(props: Props) {
         <label htmlFor="seniority">
           Seniority:
           <select
+            className="form-control"
             id="seniority"
             value={seniority}
             onChange={(e) => setSeniority(e.target.value)}
@@ -165,9 +263,7 @@ export function UserIsNotOwner(props: Props) {
   }
   return (
     <div className="call-view user-not-owner text-left p-3">
-      <h1>{props.call.title}</h1>
-      <small>{props.call.timePosted.toLocaleDateString()}</small>
-      <p>{props.call.description}</p>
+      <CallInformation {...props} />
       {error && <div className="alert alert-danger">{error}</div>}
       {form}
     </div>

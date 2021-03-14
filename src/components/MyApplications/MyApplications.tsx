@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { getUserApplications } from '../../utils/JobCallApi';
+import { getColorOnStatus } from '../../utils/prettify';
 import { CallApplication } from '../../utils/Types';
 import { UserContext } from '../Auth/Auth';
 import Spinner from '../Spinner.tsx/Spinner';
@@ -32,7 +33,9 @@ function MyApplications() {
       <td>{application.target?.title}</td>
       <td>{application.timeApplied.toLocaleDateString()}</td>
       <td>{application.target?.type}</td>
-      <td>{application.applicationStatus}</td>
+      <td style={{ color: getColorOnStatus(application.applicationStatus) }}>
+        {application.applicationStatus}
+      </td>
       <td className="no-linebreak">
         <a href={`/call/${application.target?.id}`}>Vai a call</a>
       </td>

@@ -148,7 +148,7 @@ function Dashboard() {
       />
       <div className="calls">
         {error && <div className="alert alert-danger">{error}</div>}
-        <AddCall addCall={addCall} />
+        {query ? <></> : <AddCall addCall={addCall} />}
         {filteredCalls.map((call) => (
           <CallCard key={call.id} {...call} />
         ))}

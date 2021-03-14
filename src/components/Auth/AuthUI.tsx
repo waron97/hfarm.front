@@ -60,10 +60,12 @@ function AuthUI(props: Props) {
           onSubmit={
             section === 'signin' ? handleLoginSubmit : handleSignupSubmit
           }
+          className="form-group"
         >
           <label htmlFor="username">
-            Username:{' '}
+            <span>Username:</span>
             <input
+              className="form-control"
               required
               type="text"
               id="username"
@@ -71,8 +73,9 @@ function AuthUI(props: Props) {
             />
           </label>
           <label htmlFor="password">
-            Password:{' '}
+            <span>Password:</span>
             <input
+              className="form-control"
               required
               type="password"
               id="password"
@@ -96,7 +99,9 @@ function AuthUI(props: Props) {
       <div className="main">
         <h1 className="text-center">Crea account</h1>
         {props.errorMessage && (
-          <div className="alert alert-danger">{props.errorMessage}</div>
+          <div className="alert alert-danger form-group">
+            {props.errorMessage}
+          </div>
         )}
         <form
           onSubmit={
@@ -104,10 +109,11 @@ function AuthUI(props: Props) {
           }
         >
           <label htmlFor="username">
-            Username:{' '}
+            <span>Username:</span>
             <input
               minLength={1}
               required
+              className="form-control"
               type="text"
               id="username"
               placeholder="INSICURO"
@@ -115,19 +121,21 @@ function AuthUI(props: Props) {
             />
           </label>
           <label htmlFor="password">
-            Password:{' '}
+            <span>Password:</span>
             <input
               minLength={1}
               required
               type="password"
               id="password"
+              className="form-control"
               placeholder="INSICURO"
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
           <label htmlFor="accountType">
-            Tipo di account:
+            <span>Tipo di account:</span>
             <select
+              className="form-control"
               id="accountType"
               value={type}
               onChange={(e) => {
@@ -140,8 +148,10 @@ function AuthUI(props: Props) {
           </label>
           {type === 'external' && (
             <label htmlFor="clientId">
-              Id Cliente (nome azienda):
+              <span>Id Cliente:</span>
               <input
+                placeholder="(nome azienda)"
+                className="form-control"
                 required
                 value={clientId}
                 type="text"

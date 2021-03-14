@@ -22,10 +22,10 @@ const callBuilder = (len: number): Call[] => {
   for (let i = 0; i < len; i++) {
     ret.push({
       id: i,
-      // poster: 'hfarm',
+      // poster: 2,
       poster: sampleUser.uid,
       title: faker.name.jobTitle(),
-      description: faker.lorem.words(15),
+      description: faker.lorem.paragraphs(3),
       clientId: faker.company.companyName(),
       type: faker.random.arrayElement(['internal', 'external']),
       timePosted: faker.date.recent(),
@@ -37,6 +37,7 @@ const callBuilder = (len: number): Call[] => {
           applicantSeniority: faker.random.arrayElement(['Junior', 'Senior']),
           timeApplied: faker.date.recent(),
           applicationStatus: 'rifiutato',
+          applicantType: faker.random.arrayElement(['internal', 'external']),
         },
         {
           id: faker.random.number(),
@@ -45,6 +46,7 @@ const callBuilder = (len: number): Call[] => {
           applicantSeniority: faker.random.arrayElement(['Junior', 'Senior']),
           timeApplied: faker.date.recent(),
           applicationStatus: 'ricevuto',
+          applicantType: faker.random.arrayElement(['internal', 'external']),
         },
         {
           id: faker.random.number(),
@@ -53,6 +55,7 @@ const callBuilder = (len: number): Call[] => {
           applicantSeniority: faker.random.arrayElement(['Junior', 'Senior']),
           timeApplied: faker.date.recent(),
           applicationStatus: 'review',
+          applicantType: faker.random.arrayElement(['internal', 'external']),
         },
         {
           id: faker.random.number(),
@@ -61,6 +64,7 @@ const callBuilder = (len: number): Call[] => {
           applicantSeniority: faker.random.arrayElement(['Junior', 'Senior']),
           timeApplied: faker.date.recent(),
           applicationStatus: 'confermato',
+          applicantType: faker.random.arrayElement(['internal', 'external']),
         },
         {
           id: faker.random.number(),
@@ -69,6 +73,7 @@ const callBuilder = (len: number): Call[] => {
           applicantSeniority: faker.random.arrayElement(['Junior', 'Senior']),
           timeApplied: faker.date.recent(),
           applicationStatus: 'ricevuto',
+          applicantType: faker.random.arrayElement(['internal', 'external']),
         },
       ],
     });

@@ -34,6 +34,7 @@ export interface CallApplication {
   timeApplied: Date;
   applicationStatus: ApplicationStatus;
   target?: Call;
+  applicantType?: string;
 }
 
 /**
