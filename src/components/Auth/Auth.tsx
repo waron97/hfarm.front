@@ -263,7 +263,10 @@ class Auth extends React.Component<AuthProps, AuthState> {
   addUserApplicationLocally = (callId: number) => {
     const user = this.state.user;
     user?.applications?.push(callId);
-    this.setState({ user: user });
+    this.setState({ user: user }); // this sometimes doesn't trigger update
+    // TODO: test if following fixes problem where no trigger re-render
+    //  so location doesn't need to be reloaded
+    // this.setState({user: {...user}})
   };
 
   render() {

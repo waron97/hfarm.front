@@ -144,7 +144,8 @@ export function UserIsOwner(props: Props) {
       setApplicants(filteredApplicants);
     } else if (queryType == 'Seniority') {
       const filteredApplicants = props.call.applications?.filter(
-        (application) => application.applicantSeniority === query
+        (application) =>
+          application.applicantSeniority.toLowerCase() === query.toLowerCase()
       );
       setApplicants(filteredApplicants);
     }
