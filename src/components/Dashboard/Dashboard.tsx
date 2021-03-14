@@ -89,7 +89,7 @@ function Dashboard() {
     if (queryType === 'title') {
       setFilteredCalls(
         calls.filter((call) => {
-          return call.title.includes(query);
+          return call.title.toLowerCase().includes(query.toLowerCase());
         })
       );
     } else if (queryType === 'external') {
@@ -97,7 +97,9 @@ function Dashboard() {
         calls.filter(
           (call) =>
             call.type === 'external' &&
-            call.clientId?.includes(clientIdQuery) &&
+            call.clientId
+              ?.toLowerCase()
+              .includes(clientIdQuery.toLowerCase()) &&
             call.title.includes(query)
         )
       );

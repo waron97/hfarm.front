@@ -84,6 +84,13 @@ function AuthUI(props: Props) {
           </label>
 
           <div className="submit text-center">
+            <p>
+              Non hai ancora un account?{' '}
+              <span className="auth-link" onClick={() => setSection('signup')}>
+                Clicca qui
+              </span>
+              .
+            </p>
             <input
               required
               className="btn btn-primary mt-3"
@@ -161,6 +168,13 @@ function AuthUI(props: Props) {
             </label>
           )}
           <div className="submit text-center">
+            <p>
+              Hai già un account?{' '}
+              <span onClick={() => setSection('signin')} className="auth-link">
+                Clicca qui
+              </span>
+              .
+            </p>
             <input
               required
               className="btn btn-primary mt-3"
