@@ -318,7 +318,7 @@ export function UserIsNotOwner(props: Props) {
     if (success) {
       ctx?.editApplications(props.call.id);
       setLoading(false);
-      props.refresh();
+      window.location.reload();
     } else {
       setError('Non siamo riusciti ad effettuare la tua application');
       setLoading(false);
