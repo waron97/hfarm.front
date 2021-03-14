@@ -217,3 +217,29 @@ export const getUserApplications = async (
     return data;
   }
 };
+
+export const editCall = async (
+  call: Call,
+  user: User,
+  newTitle: string,
+  newDescription: string
+) => {
+  if (isDev) {
+    return true;
+  }
+  if (user && user.token) {
+    const fetchParams: RequestInit = {
+      method: 'POST',
+      body: JSON.stringify({
+        callId: call.id,
+        newTitle: newTitle,
+        newDescription: newDescription,
+      }),
+      headers: [['authorization', user.token]],
+    };
+    const response = await fetch('/api/editCall', fetchParams);
+    if (!response.ok) {
+      return false;
+    } else return true;
+  } else return false;
+};

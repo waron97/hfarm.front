@@ -35,6 +35,7 @@ L'end user può:
 - Vedere la lista delle sue Call e delle sue Candidature
 - Controllare lo stato di una propria candidatura
 - Modificare lo stato di una candidatura fatta a una delle sue Call
+- Modificare i dettagli di una call anche dopo averla creata
 
 ## Infrastruttura
 

@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import isDev from '../../utils/IsDev';
-import { applyToCall, updateApplicationStatus } from '../../utils/JobCallApi';
+import {
+  applyToCall,
+  editCall,
+  updateApplicationStatus,
+} from '../../utils/JobCallApi';
 import { ApplicationStatus, Call, User } from '../../utils/Types';
 import { UserContext } from '../Auth/Auth';
 import Spinner from '../Spinner.tsx/Spinner';
@@ -12,26 +16,110 @@ interface Props {
   refresh: () => void;
 }
 
-function CallInformation(props: Props) {
+interface InfoProps extends Props {
+  owner: boolean;
+}
+
+function CallInformation(props: InfoProps) {
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState(props.call.title);
+  const [description, setDescritpion] = useState(props.call.description);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const user = useContext(UserContext);
   const clientId =
     props.call.clientId && props.call.clientId !== 'NOID'
       ? props.call.clientId
       : '';
+
+  const handleChangeSubmit = async () => {
+    if (user) {
+      const success = await editCall(props.call, user.user, title, description);
+      if (!success) {
+        setError('Non è stato possibile aggiornare la call');
+      } else {
+        setSuccess('Call aggiornata con successo');
+      }
+    }
+  };
+
   return (
     <>
       <div className="jumbotron">
-        <h1 className="display-5">{props.call.title}</h1>
+        {error && <div className="alert alert-danger">{error}</div>}
+        {success && <div className="alert alert-success">{success}</div>}
+        <h1 className="display-5">
+          {editing ? (
+            <div>
+              <input
+                className="form-control"
+                type="text"
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
+            </div>
+          ) : (
+            title
+          )}
+          {props.owner && !editing && (
+            <button
+              className="btn btn-secondary d-block mt-2 mb-2"
+              onClick={() => {
+                setEditing(true);
+              }}
+            >
+              Edit
+            </button>
+          )}
+        </h1>
         <p className="">
           {props.call.timePosted.toLocaleDateString()}
           {' - ' + clientId}
         </p>
         <hr className="my-4" />
-        {/* <p className="lead">{props.call.description}</p> */}
-        {props.call.description.split('\n').map((par) => (
-          <p key={par} className="lead">
-            {par}
-          </p>
-        ))}
+        {editing ? (
+          <div>
+            <textarea
+              rows={10}
+              className="form-control"
+              value={description}
+              onChange={(e) => {
+                setDescritpion(e.target.value);
+              }}
+            ></textarea>
+          </div>
+        ) : (
+          description.split('\n').map((par) => (
+            <p key={par} className="lead">
+              {par}
+            </p>
+          ))
+        )}
+        {props.owner && editing && (
+          <div className="buttons pt-3">
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                handleChangeSubmit();
+                setEditing(false);
+              }}
+            >
+              Conferma
+            </button>
+            <button
+              className="btn btn-secondary ml-2"
+              onClick={() => {
+                setEditing(false);
+                setTitle(props.call.title);
+                setDescritpion(props.call.description);
+              }}
+            >
+              Annulla
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
@@ -47,6 +135,7 @@ export function UserIsOwner(props: Props) {
   const [applicants, setApplicants] = useState(props.call.applications);
   const [query, setQuery] = useState('');
   const [queryType, setQueryType] = useState('Nome');
+
   useEffect(() => {
     if (queryType === 'Nome') {
       const filteredApplicants = props.call.applications?.filter(
@@ -84,7 +173,7 @@ export function UserIsOwner(props: Props) {
   if (applicants) {
     return (
       <div className="call-view user-owner text-left p-3">
-        <CallInformation {...props} />
+        <CallInformation {...props} owner={true} />
         {error && <div className="alert alert-danger">{error}</div>}
         <h2 className="p-2">Candidati</h2>
         <p className="text-muted p-2">
@@ -263,7 +352,7 @@ export function UserIsNotOwner(props: Props) {
   }
   return (
     <div className="call-view user-not-owner text-left p-3">
-      <CallInformation {...props} />
+      <CallInformation {...props} owner={false} />
       {error && <div className="alert alert-danger">{error}</div>}
       {form}
     </div>
