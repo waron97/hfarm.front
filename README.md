@@ -164,13 +164,15 @@ In aggiunta a quanto già specificato nell'_overview_, aggiungo solo che:
   - `/applications` visualizza le Candidature dell'utente autenticato
 - L'intero progetto è mobile-friendly, anche se non completamente ottimizzato per i dispositivi mobili
 
-## Limitazioni e Lacune
+## Limitazioni
 
 Data la natura di prototipo del prodotto e i tempi di esecuzione ristretti, ho fatto la scelta operativa di concentrarmi sulle funzionalità anzichè l'estetica. Di conseguenza, è evidente che la cura grafica non è particolarmente accentuata, anche se ho cercato di fare il più possibile di renderlo quantomento utilizzabile su diverse risoluzioni e viewport.
 
 Dal punto di vista delle funzionalità, non è implementato nessun grado di protezione delle credenziali dell'utente in termini di cifratura. Questo è certamente inammissibile in un vero ambiente di produzione.
 
 In terzo luogo, non mi è stato possibile implementare la gestione degli errori, sia server che client, nella misura in cui mi sarebbe piaciuto. Si tratta qui di un processo piuttosto laborioso in cui si esamina ogni tipologia di errori lanciat, in modo da gestirli in maniera coerente con il sistema, dando il feedback corretto all'utente o allo sviluppatore su cosa è andato storto. Nonostante questo non sia presente in modo completo in questo prototipo, ho comunque impostato funzioni e metodi in maniera tale che la gestione di questi errori venga svolta in alcuni punti ben precisi dell'applicazione, senza disperderli e quindi rendere il prodotto poco scalabile.
+
+Non ho implementato la gestione dei CV in forma di file. Per farlo sarebbe stato necessario associare un bucket (per esempio in AWS S3).
 
 Infine, i dati anagrafici che vengono mostrati sulla candidatura (in `/posts`) sono generati da faker.js anche in produzione. Purtroppo non ho integrato questi campi durante il design iniziale del progetto, e aggiungerli ora richiederebbe più tempo di quanto ne abbia a disposizione.
 
