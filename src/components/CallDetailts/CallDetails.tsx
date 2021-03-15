@@ -19,9 +19,9 @@ export interface CallDetailProps {
 function CallDetails(props: CallDetailProps) {
   const [error, setError] = useState('');
   const [call, setCall] = useState<Call | null>(null);
-  const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(false);
   const ctx = useContext(UserContext);
+  const [isOwner, setIsOwner] = useState(ctx?.user?.uid === call?.poster);
 
   const {
     match: {
@@ -57,7 +57,7 @@ function CallDetails(props: CallDetailProps) {
     } else {
       setIsOwner(false);
     }
-  }, [setIsOwner, user, call]);
+  }, [isOwner, setIsOwner, user, call]);
 
   const refreshCallData = () => {
     setLoading(true);

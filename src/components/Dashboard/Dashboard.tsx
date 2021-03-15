@@ -60,8 +60,8 @@ function Dashboard() {
   const refreshCalls = () => {
     getCalls()
       .then((data) => {
-        setCalls(data);
-        setFilteredCalls(data);
+        setCalls([...data]);
+        setFilteredCalls([...data]);
       })
       .catch(() => {
         setError('Errore nel download delle call');
